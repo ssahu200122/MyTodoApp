@@ -1,4 +1,4 @@
-# My Modern Todo
+# My Modern Todo (By Sourabh Sahu)
 
 A sleek, modern desktop task management application built with Python. designed to keep you organized with a beautiful interface and powerful features.
 
