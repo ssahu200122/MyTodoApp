@@ -63,24 +63,26 @@ Download the latest Installer (Windows) Click the link above to download the MyT
 
 If you want to contribute or run the raw Python code:
 
-Clone the repository
+- Clone the repository
 
-```bash
-git clone [https://github.com/ssahu200122/MyModernTodo.git](https://github.com/yourusername/MyModernTodo.git)
-cd MyModernTodo
-```
-
-
-Install Dependencies
-
-pip install -r requirements.txt
+    ```bash
+    git clone [https://github.com/ssahu200122/MyModernTodo.git](https://github.com/yourusername/MyModernTodo.git)
+    cd MyModernTodo
+    ```
 
 
-Run the App
+- Install Dependencies
 
-```bash
-python main.py
-```
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+
+- Run the App
+
+    ```bash
+    python main.py
+    ```
 
 
 # 📦 Building the Executable
