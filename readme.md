@@ -3,7 +3,11 @@ My Modern Todo
 A sleek, modern desktop task management application built with Python. designed to keep you organized with a beautiful interface and powerful features.
 
 ![Screenshot 1](assets/screenshot1.png)
+
+
 ![Screenshot 2](assets/screenshot2.png)
+
+
 ![Screenshot 3](assets/screenshot3.png)
 
 [📥 Download](https://github.com/ssahu200122/MyTodoApp/raw/main/Output/MyTodo_Setup.exe)
