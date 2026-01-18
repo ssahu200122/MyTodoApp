@@ -1,0 +1,6 @@
+customtkinter
+sqlalchemy
+apscheduler
+plyer
+pystray
+Pillow
