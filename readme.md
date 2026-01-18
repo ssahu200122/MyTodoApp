@@ -10,8 +10,8 @@ A sleek, modern desktop task management application built with Python. designed 
 
 ![Screenshot 3](assets/screenshot3.png)
 
-# Download
-[📥 Download](https://github.com/ssahu200122/MyTodoApp/raw/main/Output/MyTodo_Setup.exe)
+# 📥 Download
+[Download](https://github.com/ssahu200122/MyTodoApp/raw/main/Output/MyTodo_Setup.exe)
 
 Download the latest Installer (Windows) Click the link above to download the MyTodo_Setup.exe installer.
 
