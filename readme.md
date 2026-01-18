@@ -65,7 +65,7 @@ If you want to contribute or run the raw Python code:
 
 Clone the repository
 
-git clone [https://github.com/yourusername/MyModernTodo.git](https://github.com/yourusername/MyModernTodo.git)
+git clone [https://github.com/ssahu200122/MyModernTodo.git](https://github.com/yourusername/MyModernTodo.git)
 cd MyModernTodo
 
 
