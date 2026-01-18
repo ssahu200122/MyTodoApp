@@ -1,4 +1,4 @@
-My Modern Todo
+# My Modern Todo
 
 A sleek, modern desktop task management application built with Python. designed to keep you organized with a beautiful interface and powerful features.
 
@@ -10,55 +10,56 @@ A sleek, modern desktop task management application built with Python. designed 
 
 ![Screenshot 3](assets/screenshot3.png)
 
+# Download
 [📥 Download](https://github.com/ssahu200122/MyTodoApp/raw/main/Output/MyTodo_Setup.exe)
 
 Download the latest Installer (Windows) Click the link above to download the MyTodo_Setup.exe installer.
 
-✨ Features
+# ✨ Features
 
-Modern UI: Built with CustomTkinter for a clean, responsive aesthetic that supports High-DPI displays.
+- **Modern UI:** Built with CustomTkinter for a clean, responsive aesthetic that supports High-DPI displays.
 
-Project-Based Organization: Create multiple lists (e.g., Personal, Work, Shopping) to categorize your tasks.
+- **Project-Based Organization:** Create multiple lists (e.g., Personal, Work, Shopping) to categorize your tasks.
 
-Smart Filtering: View tasks by Inbox, Today, Upcoming, Overdue, or Done.
+- **Smart Filtering:** View tasks by Inbox, Today, Upcoming, Overdue, or Done.
 
-Task Details:
+- **Task Details:**
 
-Set Due Dates & Times with a visual picker.
+    - Set Due Dates & Times with a visual picker.
 
-Add Subtasks to break down complex items.
+    - Add Subtasks to break down complex items.
 
-Set Priority Levels (Low, Medium, High).
+    - Set Priority Levels (Low, Medium, High).
+    
+    - Add text descriptions.
 
-Add text descriptions.
+- **System Tray Integration:** Minimizes to the system tray so it stays running in the background.
 
-System Tray Integration: Minimizes to the system tray so it stays running in the background.
+- **Desktop Notifications:** Get native OS notifications when a task is due.
 
-Desktop Notifications: Get native OS notifications when a task is due.
+- **Customization:**
 
-Customization:
+    - Toggle Light/Dark Mode.
 
-Toggle Light/Dark Mode.
+    - Change Color Themes (Blue, Green, Dark Blue, and custom JSON themes).
 
-Change Color Themes (Blue, Green, Dark Blue, and custom JSON themes).
+- **Data Persistence:** Automatically saves all data to a local SQLite database.
 
-Data Persistence: Automatically saves all data to a local SQLite database.
+# 🛠️ Built With
 
-🛠️ Built With
+- **Python** 3.13+
 
-Python 3.13+
+- **CustomTkinter** - UI Framework
 
-CustomTkinter - UI Framework
+- **SQLAlchemy** - Database ORM
 
-SQLAlchemy - Database ORM
+- **APScheduler** - Background Task Scheduling
 
-APScheduler - Background Task Scheduling
+- **Plyer** - System Notifications
 
-Plyer - System Notifications
+- **Pystray** - System Tray Icon Support
 
-Pystray - System Tray Icon Support
-
-🚀 Running from Source (For Developers)
+# 🚀 Running from Source (For Developers)
 
 If you want to contribute or run the raw Python code:
 
@@ -75,10 +76,12 @@ pip install -r requirements.txt
 
 Run the App
 
+```bash
 python main.py
+```
 
 
-📦 Building the Executable
+# 📦 Building the Executable
 
 To create the .exe file yourself using PyInstaller:
 
@@ -86,25 +89,29 @@ Ensure all dependencies are installed.
 
 Run the build script:
 
+```bash
 python build_exe.py
+```
 
 
 The output will be in the dist/MyModernTodo folder.
 
-💿 Creating the Installer
+# 💿 Creating the Installer
 
 To generate the MyTodo_Setup.exe installer:
 
-Download and install Inno Setup.
+Download and install Inno Setup from the link provided below:
+
+[Inno Setup](https://jrsoftware.org/isdl.php#stable)
 
 Open setup_script.iss with Inno Setup Compiler.
 
-Click Compile.
+Click Run.
 
 The installer will be generated in the Output folder.
 
-📄 License
+# 📄 License
 
 Distributed under the MIT License. See LICENSE for more information.
 
-Developed by Sourabh Apps
+# Developed by Sourabh Apps
