@@ -67,7 +67,7 @@ If you want to contribute or run the raw Python code:
 
     ```bash
     git clone https://github.com/ssahu200122/MyTodoApp.git
-    cd MyModernTodo
+    cd MyTodoApp
     ```
 
 
