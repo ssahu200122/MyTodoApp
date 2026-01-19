@@ -6,7 +6,7 @@ import calendar
 from PIL import Image
 import os
 
-# --- HELPER: Custom Input Dialog (Topmost) ---
+# ... (TopmostInputDialog, DatePickerDialog, TimePickerDialog classes remain unchanged) ...
 class TopmostInputDialog(ctk.CTkToplevel):
     def __init__(self, parent, title="Input", text="Enter value:", default_value=""):
         super().__init__(parent)
@@ -48,7 +48,6 @@ class TopmostInputDialog(ctk.CTkToplevel):
     def get_input(self):
         return self.value
 
-# --- HELPER: Calendar Date Picker ---
 class DatePickerDialog(ctk.CTkToplevel):
     def __init__(self, parent, current_date=None, on_select=None):
         super().__init__(parent)
@@ -148,7 +147,6 @@ class DatePickerDialog(ctk.CTkToplevel):
         self.destroy()
 
 
-# --- HELPER: Time Picker Dialog ---
 class TimePickerDialog(ctk.CTkToplevel):
     def __init__(self, parent, current_time=None, on_select=None):
         super().__init__(parent)
@@ -178,7 +176,7 @@ class TimePickerDialog(ctk.CTkToplevel):
         ctk.CTkLabel(sel_frame, text=":", font=("Arial", 20)).pack(side="left")
         
         # Minute
-        minutes = [str(m).zfill(2) for m in range(0, 60)] # Changed step to 1
+        minutes = [str(m).zfill(2) for m in range(0, 60)] 
         self.var_minute = ctk.StringVar(value=str(target.minute).zfill(2))
         self.opt_minute = ctk.CTkOptionMenu(sel_frame, values=minutes, variable=self.var_minute, width=70, height=40, font=("Arial", 20))
         self.opt_minute.pack(side="left", padx=5)
@@ -198,52 +196,46 @@ class TimePickerDialog(ctk.CTkToplevel):
             self.on_select(t)
         self.destroy()
 
-
 # --- MAIN DIALOG CLASS ---
 class TaskDetailDialog(ctk.CTkToplevel):
     def __init__(self, parent, task_id=None, list_id=None, default_date=None, on_close=None):
         super().__init__(parent)
         self.task_id = task_id
-        self.list_id = list_id # Required if task_id is None
+        self.list_id = list_id 
         self.on_close = on_close
         self.session = SessionLocal()
         
-        # Load Icons with Theme Support
+        # Load Icons 
         self.icon_edit = self.load_themed_icon("assets/edit_icon.png", (16, 16))
         self.icon_delete = self.load_themed_icon("assets/delete_icon.png", (16, 16))
 
-        # 1. Fetch Task or Create New Transient Object
+        # 1. Fetch Task
         if self.task_id:
             self.task = self.session.query(TodoItem).get(task_id)
             window_title = "Edit Task"
         else:
-            # Create a new instance but don't add to DB yet
             self.task = TodoItem(title="", list_id=self.list_id)
             if default_date:
                 self.task.due_date = default_date
             window_title = "New Task"
 
-        # Fetch All Lists for Dropdown
+        # Fetch Lists for Move Dropdown
         self.all_lists = self.session.query(TodoList).all()
         self.list_names = [l.name for l in self.all_lists]
         self.list_map = {l.name: l.id for l in self.all_lists}
         
-        # Determine current list name
         current_list_obj = self.session.query(TodoList).get(self.task.list_id if self.task.list_id else self.list_id)
         current_list_name = current_list_obj.name if current_list_obj else self.list_names[0]
 
-        # Temp variable to hold date before saving
         self.selected_due_date = self.task.due_date
 
         # 2. Window Setup
         self.title(window_title)
-        self.geometry("750x500") # Slightly taller for extra field
+        self.geometry("800x550") 
         
-        # Main Container
         self.main_frame = ctk.CTkFrame(self, fg_color="transparent")
         self.main_frame.pack(fill="both", expand=True, padx=20, pady=20)
         
-        # Content Split Container
         self.content_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
         self.content_frame.pack(fill="both", expand=True, pady=(0, 15))
 
@@ -261,7 +253,7 @@ class TaskDetailDialog(ctk.CTkToplevel):
 
         # Description
         ctk.CTkLabel(self.left_col, text="Description", anchor="w", font=ctk.CTkFont(weight="bold")).pack(fill="x", pady=(0, 2))
-        self.desc_entry = ctk.CTkTextbox(self.left_col, height=100)
+        self.desc_entry = ctk.CTkTextbox(self.left_col, height=80)
         if self.task.description:
             self.desc_entry.insert("0.0", self.task.description)
         self.desc_entry.pack(fill="x", pady=(0, 10))
@@ -273,11 +265,18 @@ class TaskDetailDialog(ctk.CTkToplevel):
                                              variable=self.priority_var)
         self.priority_menu.pack(fill="x", pady=(0, 10))
 
-        # List (Move to...)
+        # List (Move)
         ctk.CTkLabel(self.left_col, text="List", anchor="w", font=ctk.CTkFont(weight="bold")).pack(fill="x", pady=(0, 2))
         self.list_var = ctk.StringVar(value=current_list_name)
         self.list_menu = ctk.CTkOptionMenu(self.left_col, values=self.list_names, variable=self.list_var)
         self.list_menu.pack(fill="x", pady=(0, 10))
+
+        # RECURRENCE (NEW)
+        ctk.CTkLabel(self.left_col, text="Repeat", anchor="w", font=ctk.CTkFont(weight="bold")).pack(fill="x", pady=(0, 2))
+        self.recurrence_var = ctk.StringVar(value=self.task.recurrence or "None")
+        self.recurrence_menu = ctk.CTkOptionMenu(self.left_col, values=["None", "Daily", "Weekly", "Monthly"], 
+                                                 variable=self.recurrence_var)
+        self.recurrence_menu.pack(fill="x", pady=(0, 10))
 
         # Date & Time
         ctk.CTkLabel(self.left_col, text="Due Date & Time", anchor="w", font=ctk.CTkFont(weight="bold")).pack(fill="x", pady=(0, 2))
@@ -292,7 +291,6 @@ class TaskDetailDialog(ctk.CTkToplevel):
                                       command=self.open_time_picker)
         self.btn_time.pack(side="left", fill="x", expand=True, padx=(5, 0))
 
-        # Clear Date Button (With Icon)
         if self.icon_delete:
             self.btn_clear_dt = ctk.CTkButton(dt_frame, text="", image=self.icon_delete, width=30, 
                                               fg_color="transparent", hover_color=("gray85", "gray25"), 
@@ -326,32 +324,26 @@ class TaskDetailDialog(ctk.CTkToplevel):
         self.save_btn = ctk.CTkButton(self.main_frame, text=btn_text, height=40, font=ctk.CTkFont(weight="bold"), command=self.save_details)
         self.save_btn.pack(side="bottom", fill="x")
 
-        # Window Management
         self.attributes("-topmost", True)
         self.lift()
         self.focus_force()
 
     def load_themed_icon(self, path, size):
-        """Creates a CTkImage with Black (Light Mode) and White (Dark Mode) versions"""
         if not os.path.exists(path):
             return None
         try:
             original = Image.open(path).convert("RGBA")
-            
             white_solid = Image.new("RGBA", original.size, "white")
             white_icon = Image.new("RGBA", original.size, (0, 0, 0, 0))
             white_icon.paste(white_solid, (0, 0), original)
-            
             black_solid = Image.new("RGBA", original.size, "black")
             black_icon = Image.new("RGBA", original.size, (0, 0, 0, 0))
             black_icon.paste(black_solid, (0, 0), original)
-            
             return ctk.CTkImage(light_image=black_icon, dark_image=white_icon, size=size)
         except Exception as e:
-            print(f"Error loading icon {path}: {e}")
             return None
 
-    # ... (Date/Time methods unchanged) ...
+    # ... (Date/Time methods) ...
     def update_datetime_buttons(self):
         if self.selected_due_date:
             date_str = self.selected_due_date.strftime("%Y-%m-%d")
@@ -387,23 +379,18 @@ class TaskDetailDialog(ctk.CTkToplevel):
     def refresh_subtasks(self):
         for w in self.sub_list_frame.winfo_children():
             w.destroy()
-            
         subs = sorted(self.task.subtasks, key=lambda x: x.is_completed)
-
         if not subs:
             ctk.CTkLabel(self.sub_list_frame, text="No subtasks yet.", text_color="gray").pack(pady=10)
-
         for sub in subs:
             row = ctk.CTkFrame(self.sub_list_frame, fg_color="transparent")
             row.pack(fill="x", pady=2)
-            
             text_color = "gray60" if sub.is_completed else ("gray10", "gray90")
             chk = ctk.CTkCheckBox(row, text=sub.title, text_color=text_color,
                                   command=lambda s=sub: self.toggle_subtask(s))
             if sub.is_completed: chk.select()
             chk.pack(side="left", padx=5)
             
-            # Delete Button
             if self.icon_delete:
                 btn_del = ctk.CTkButton(row, text="", image=self.icon_delete, width=24, height=24,
                                         fg_color="transparent", hover_color=("gray85", "gray25"),
@@ -414,7 +401,6 @@ class TaskDetailDialog(ctk.CTkToplevel):
                                         command=lambda s=sub: self.delete_subtask(s))
             btn_del.pack(side="right")
             
-            # Edit Button
             if self.icon_edit:
                 btn_edit = ctk.CTkButton(row, text="", image=self.icon_edit, width=24, height=24,
                                          fg_color="transparent", hover_color=("gray85", "gray25"),
@@ -467,7 +453,10 @@ class TaskDetailDialog(ctk.CTkToplevel):
         self.task.priority = self.priority_var.get()
         self.task.due_date = self.selected_due_date
         
-        # Update List ID based on selection
+        # Save Recurrence
+        recur = self.recurrence_var.get()
+        self.task.recurrence = recur if recur != "None" else None
+
         selected_list_name = self.list_var.get()
         if selected_list_name in self.list_map:
             self.task.list_id = self.list_map[selected_list_name]
